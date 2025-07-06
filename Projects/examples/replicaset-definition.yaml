@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: myapp-rs
+  labels:
+    app: myapp
+    type: frontend
+spec:
+  template:
+    metadata:
+      name: nginx
+      labels:
+        app: nginx
+        type: frontend
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          ports:
+          - containerPort: 80
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+      type: frontend
+  # The selector field is required for ReplicaSets to match the pods it manages.
+  # It defines how the ReplicaSet finds which pods to manage.
+  # In this case, it matches pods with the labels app: nginx and type: frontend
+  # This is different from the ReplicationController, which does not require a selector field.     
